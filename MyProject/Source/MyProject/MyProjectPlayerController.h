@@ -29,6 +29,8 @@ public:
 	/** FX Class that we will spawn when clicking */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UNiagaraSystem* FXCursor;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UNiagaraSystem* FXCursor2;
 
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
@@ -41,6 +43,23 @@ public:
 	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* SetDestinationTouchAction;
+
+protected:
+
+	//	２体のキャラクターの参照
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
+	APawn* ControlledPawn1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
+	APawn* ControlledPawn2;
+
+	// 右クリック用InputAction
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SetDestinationRightClickAction;
+
+	//  右クリック用ハンドラ
+	void OnSetDestinationRightClickTriggered();
+	void OnSetDestinationRightClickReleased();
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */

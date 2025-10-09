@@ -3,6 +3,8 @@
 #include "MyProjectGameMode.h"
 #include "MyProjectPlayerController.h"
 #include "MyProjectCharacter.h"
+#include "Character_Secondary.h"
+#include "PlayerController_Secondary.h"
 #include "UObject/ConstructorHelpers.h"
 
 AMyProjectGameMode::AMyProjectGameMode()
@@ -12,6 +14,7 @@ AMyProjectGameMode::AMyProjectGameMode()
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> CharacterSecondaryBPClass(TEXT("/Game/TopDown/Blueprints/Character_Secondary"));
 	if (PlayerPawnBPClass.Class != nullptr)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
