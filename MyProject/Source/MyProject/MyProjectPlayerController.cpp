@@ -34,7 +34,7 @@ void AMyProjectPlayerController::BeginPlay()
 
 	for (AActor* Actor : FoundPawns)
 	{
-		// 例えばタグで判別（"Player1", "Player2" などを事前にPawnに設定）
+		// タグで判別（"Player1", "Player2" などを事前にPawnに設定）
 		if (Actor->ActorHasTag("Player1"))
 		{
 			ControlledPawn1 = Cast<APawn>(Actor);
@@ -180,6 +180,8 @@ void AMyProjectPlayerController::OnSetDestinationRightClickReleased()
 		// player2 を目的地に移動
 		if (ControlledPawn2 && ControlledPawn2->GetController())
 		{
+			FString aa = ControlledPawn2->GetController()->GetName();
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *aa);
 			UAIBlueprintHelperLibrary::SimpleMoveToLocation(ControlledPawn2->GetController(), CachedDestination);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, FXCursor2, CachedDestination, FRotator::ZeroRotator, FVector(1.f, 1.f, 1.f), true, true, ENCPoolMethod::None, true);
 		}
