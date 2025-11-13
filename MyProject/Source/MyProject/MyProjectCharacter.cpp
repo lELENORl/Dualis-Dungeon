@@ -48,4 +48,6 @@ AMyProjectCharacter::AMyProjectCharacter()
 void AMyProjectCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+
+	UE_LOG(LogTemp, Error, TEXT("%s"), *GetActorLocation().ToString());
 }
