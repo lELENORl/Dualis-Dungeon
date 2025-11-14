@@ -30,6 +30,44 @@ public:
 	UFUNCTION()
 	void OnSeePlayer(APawn* Pawn);
 
+protected:
+    virtual void ReceiveAnyDamage(
+        float Damage,
+        const class UDamageType* DamageType,
+        class AController* InstigatedBy,
+        class AActor* DamageCauser
+    );
+
+    /* =======================
+       VARIABLES
+       ======================= */
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mob")
+    double Health = 100.0;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mob")
+    UAnimMontage* AttackMontage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mob")
+    UAnimMontage* DeathMontage;
+
+    bool bIsDead = false; 
+
+    /* =======================
+       CHILD ACTOR WEAPON
+       ======================= */
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+    TSubclassOf<AActor> WeaponClass;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+    class UChildActorComponent* WeaponChild;
 
 
+    /* =======================
+       FUNCTIONS
+       ======================= */
+
+    void PlayAttackAnimation();
+    void PlayDeathAnimation();
 };
