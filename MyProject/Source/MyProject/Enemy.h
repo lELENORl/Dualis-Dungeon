@@ -60,8 +60,8 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
     TSubclassOf<AActor> WeaponClass;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
-    class UChildActorComponent* WeaponChild;
+    //UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+    //class UChildActorComponent* WeaponChild;
 
 
     /* =======================

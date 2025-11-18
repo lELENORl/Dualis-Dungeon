@@ -29,17 +29,17 @@ AEnemy::AEnemy()
     /* ===========
       Weapon ChildActor
       =========== */
-    WeaponChild = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponChild"));
-    WeaponChild->SetupAttachment(GetMesh(), TEXT("RightHandSocket"));
+    //WeaponChild = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponChild"));
+    //WeaponChild->SetupAttachment(GetMesh(), TEXT("RightHandSocket"));
 
-    static ConstructorHelpers::FClassFinder<AActor> WeaponBP(
-        TEXT("/Game/TopDown/Blueprints/BaseWeapon_MobFist")
-    );
-    if (WeaponBP.Succeeded())
-    {
-        WeaponClass = WeaponBP.Class;
-        WeaponChild->SetChildActorClass(WeaponClass);
-    }
+    //static ConstructorHelpers::FClassFinder<AActor> WeaponBP(
+    //    TEXT("/Game/TopDown/Blueprints/BaseWeapon_MobFist")
+    //);
+    //if (WeaponBP.Succeeded())
+    //{
+    //    WeaponClass = WeaponBP.Class;
+    //    WeaponChild->SetChildActorClass(WeaponClass);
+    //}
 
     /* ===========
        Attack Animation
