@@ -67,10 +67,10 @@ void AEnemy::BeginPlay()
 	Super::BeginPlay();
 	
     // 子アクターへ owner を渡す（BP の SetOwner）
-    if (WeaponChild && WeaponChild->GetChildActor())
-    {
-        WeaponChild->GetChildActor()->SetOwner(this);
-    }
+    //if (WeaponChild && WeaponChild->GetChildActor())
+    //{
+    //    WeaponChild->GetChildActor()->SetOwner(this);
+    //}
 }
 
 // Called every frame
