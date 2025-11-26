@@ -38,6 +38,9 @@ protected:
         class AActor* DamageCauser
     );
 
+    UPROPERTY(Category = "UnitComponent", EditAnywhere)
+    UStaticMeshComponent* WeaponMesh;
+
     /* =======================
        VARIABLES
        ======================= */

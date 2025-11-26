@@ -27,21 +27,6 @@ AEnemy::AEnemy()
 	PawnSensingComp->OnSeePawn.AddDynamic(this, &AEnemy::OnSeePlayer);
 
     /* ===========
-      Weapon ChildActor
-      =========== */
-    //WeaponChild = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponChild"));
-    //WeaponChild->SetupAttachment(GetMesh(), TEXT("RightHandSocket"));
-
-    //static ConstructorHelpers::FClassFinder<AActor> WeaponBP(
-    //    TEXT("/Game/TopDown/Blueprints/BaseWeapon_MobFist")
-    //);
-    //if (WeaponBP.Succeeded())
-    //{
-    //    WeaponClass = WeaponBP.Class;
-    //    WeaponChild->SetChildActorClass(WeaponClass);
-    //}
-
-    /* ===========
        Attack Animation
        =========== */
     static ConstructorHelpers::FObjectFinder<UAnimMontage> AttackMontageAsset(
@@ -59,6 +44,9 @@ AEnemy::AEnemy()
     {
         DeathMontage = DeathMontageAsset.Object;
     }
+
+    WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
+    WeaponMesh->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -66,11 +54,14 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
-    // 子アクターへ owner を渡す（BP の SetOwner）
-    //if (WeaponChild && WeaponChild->GetChildActor())
-    //{
-    //    WeaponChild->GetChildActor()->SetOwner(this);
-    //}
+    if (WeaponMesh && GetMesh())
+    {
+        WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("RightHandSocket"));
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("Failed to attach weapon. Mesh or WeaponMesh is null."));
+    }
 }
 
 // Called every frame
@@ -90,7 +81,7 @@ void AEnemy::OnSeePlayer(APawn* Pawn)
 	{
 		// AIControllerにプレイヤー情報を設定
 		AIController->SetPlayerKey(player);
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetActorLocation().ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetActorLocation().ToString());
 	}
 
 	// 視野に入ったら画面に"See"と表示
