@@ -45,8 +45,8 @@ AEnemy::AEnemy()
         DeathMontage = DeathMontageAsset.Object;
     }
 
-    WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-    WeaponMesh->SetupAttachment(GetMesh());
+    //WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
+    //WeaponMesh->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
