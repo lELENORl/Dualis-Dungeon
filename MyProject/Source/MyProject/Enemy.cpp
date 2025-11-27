@@ -45,8 +45,8 @@ AEnemy::AEnemy()
         DeathMontage = DeathMontageAsset.Object;
     }
 
-    //WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-    //WeaponMesh->SetupAttachment(GetMesh());
+    WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
+    WeaponMesh->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -88,30 +88,22 @@ void AEnemy::OnSeePlayer(APawn* Pawn)
 	UKismetSystemLibrary::PrintString(this, "See", true, true, FColor::Blue, 2.f);
 }
 
-void AEnemy::ReceiveAnyDamage(
-    float Damage,
-    const UDamageType* DamageType,
-    AController* InstigatedBy,
-    AActor* DamageCauser
-)
+float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-    Super::ReceiveAnyDamage(Damage, DamageType, InstigatedBy, DamageCauser);
+    UKismetSystemLibrary::PrintString(this, "takedamage", true, true, FColor::Blue, 2.f);
 
-    /* ===========
-       Health 減少
-       =========== */
-    Health -= Damage;
+    // ダメージ計算
+    Health -= DamageAmount;
+    Health = FMath::Clamp(Health, 0.0f, 100.0f);
 
-    if (Health > 0.0)
+    if (Health <= 0.0f)
     {
-        // 生存時：
-    }
-    else
-    {
-        // 死亡アクション
         bIsDead = true;
         PlayDeathAnimation();
     }
+
+    // 必要に応じて他の処理も追加
+    return DamageAmount;
 }
 
 /* ===========

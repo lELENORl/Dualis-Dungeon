@@ -31,12 +31,13 @@ public:
 	void OnSeePlayer(APawn* Pawn);
 
 protected:
-    virtual void ReceiveAnyDamage(
-        float Damage,
-        const class UDamageType* DamageType,
-        class AController* InstigatedBy,
-        class AActor* DamageCauser
-    );
+
+    virtual float TakeDamage(
+        float DamageAmount,
+        struct FDamageEvent const& DamageEvent,
+        class AController* EventInstigator,
+        AActor* DamageCauser
+    ) override;
 
     UPROPERTY(Category = "UnitComponent", EditAnywhere)
     UStaticMeshComponent* WeaponMesh;
