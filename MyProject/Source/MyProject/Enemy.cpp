@@ -45,8 +45,8 @@ AEnemy::AEnemy()
         DeathMontage = DeathMontageAsset.Object;
     }
 
-    WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-    WeaponMesh->SetupAttachment(GetMesh());
+    ChildActor = CreateDefaultSubobject<UChildActorComponent>(TEXT("ChildActor"));
+    ChildActor->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -54,9 +54,9 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
-    if (WeaponMesh && GetMesh())
+    if (ChildActor && GetMesh())
     {
-        WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("RightHandSocket"));
+        ChildActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("RightHandSocket"));
     }
     else
     {

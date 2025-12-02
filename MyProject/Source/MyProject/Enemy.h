@@ -30,7 +30,6 @@ public:
 	UFUNCTION()
 	void OnSeePlayer(APawn* Pawn);
 
-protected:
 
     virtual float TakeDamage(
         float DamageAmount,
@@ -40,7 +39,7 @@ protected:
     ) override;
 
     UPROPERTY(Category = "UnitComponent", EditAnywhere)
-    UStaticMeshComponent* WeaponMesh;
+    UChildActorComponent* ChildActor;
 
     /* =======================
        VARIABLES
