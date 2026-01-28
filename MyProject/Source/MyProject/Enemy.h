@@ -54,7 +54,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mob")
     UAnimMontage* DeathMontage;
 
+    bool IsAttacking() const { return isAttack; }
+    void OnAttackFinished();
     bool bIsDead = false; 
+    bool isAttack = false;
 
     /* =======================
        CHILD ACTOR WEAPON

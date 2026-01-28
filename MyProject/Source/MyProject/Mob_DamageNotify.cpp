@@ -2,6 +2,8 @@
 
 #include "Mob_DamageNotify.h"
 #include "BaseWeapon.h"
+#include "Enemy.h"
+#include "Components/ChildActorComponent.h"
 
 //void UMob_DamageNotify::NotifyBegin(
 //    USkeletalMeshComponent* MeshComp,
@@ -13,34 +15,55 @@
 //    // 実装
 //}
 
-bool UMob_DamageNotify::Received_NotifyBegin(
-    USkeletalMeshComponent* MeshComp,
-    UAnimSequenceBase* Animation,
-    float TotalDuration, const
-    FAnimNotifyEventReference& EventReference) const
+void UMob_DamageNotify::NotifyBegin(
+	USkeletalMeshComponent* MeshComp,
+	UAnimSequenceBase* Animation,
+	float TotalDuration
+)
 {
-    if (!MeshComp)
-        return false;
+	UE_LOG(LogTemp, Warning, TEXT("DamageNotify BEGIN"));
 
-    // Owner Actor取得
-    AActor* OwnerActor = MeshComp->GetOwner();
-    if (!OwnerActor)
-        return false;
+	if (!MeshComp) return;
 
-    // ChildActorComponent から ChildActor を取得（もし存在する場合）
-    UChildActorComponent* ChildActorComp = OwnerActor->FindComponentByClass<UChildActorComponent>();
-    if (!ChildActorComp)
-        return false;
-    AActor* ChildActor = ChildActorComp->GetChildActor();
-    if (!ChildActor)
-        return false;
+	AActor* OwnerActor = MeshComp->GetOwner();
+	if (!OwnerActor) return;
 
-    ABaseWeapon* Weapon = Cast<ABaseWeapon>(ChildActor);
-    if (!Weapon)
-        return false;
+	UChildActorComponent* ChildActorComp =
+		OwnerActor->FindComponentByClass<UChildActorComponent>();
+	if (!ChildActorComp) return;
 
-    // 武器のメソッド呼び出し
-    Weapon->SwordActive();
+	if (ABaseWeapon* Weapon = Cast<ABaseWeapon>(ChildActorComp->GetChildActor()))
+	{
+		Weapon->SwordActive();
+	}
+}
 
-    return true;
+void UMob_DamageNotify::NotifyEnd(
+	USkeletalMeshComponent* MeshComp,
+	UAnimSequenceBase* Animation
+)
+{
+	UE_LOG(LogTemp, Warning, TEXT("DamageNotify END"));
+
+	if (!MeshComp) return;
+
+	AActor* OwnerActor = MeshComp->GetOwner();
+	if (!OwnerActor) return;
+
+	// 武器OFF
+	if (UChildActorComponent* ChildActorComp =
+		OwnerActor->FindComponentByClass<UChildActorComponent>())
+	{
+		if (ABaseWeapon* Weapon =
+			Cast<ABaseWeapon>(ChildActorComp->GetChildActor()))
+		{
+			Weapon->SwordDeactive();
+		}
+	}
+
+	// 攻撃終了通知
+	if (AEnemy* Enemy = Cast<AEnemy>(OwnerActor))
+	{
+		Enemy->OnAttackFinished();
+	}
 }

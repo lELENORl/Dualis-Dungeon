@@ -111,7 +111,20 @@ float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
  =========== */
 void AEnemy::PlayAttackAnimation()
 {
-    if (!AttackMontage) return;
+
+    UE_LOG(LogTemp, Warning, TEXT("PlayAttackAnimation"));
+
+    if (isAttack)
+    {
+        return;
+    }
+    isAttack = true;
+
+    if (!AttackMontage)
+    {
+        UE_LOG(LogTemp, Error, TEXT("!AttackMontage"));
+        return;
+    }
 
     float Duration = PlayAnimMontage(AttackMontage);
 
@@ -121,20 +134,32 @@ void AEnemy::PlayAttackAnimation()
         FTimerHandle Timer;
         GetWorldTimerManager().SetTimer(Timer, [this]()
             {
-                // アニメーション停止
-                USkeletalMeshComponent* MeshComp = GetMesh();
-                if (MeshComp)
-                {
-                    MeshComp->bPauseAnims = true;
+                //// アニメーション停止
+                //USkeletalMeshComponent* MeshComp = GetMesh();
+                //if (MeshComp)
+                //{
+                //    MeshComp->bPauseAnims = true;
 
-                    // 移動停止
-                    if (UCharacterMovementComponent* Move = GetCharacterMovement())
-                    {
-                        Move->DisableMovement();
-                    }
-                }
+                //    // 移動停止
+                //    if (UCharacterMovementComponent* Move = GetCharacterMovement())
+                //    {
+                //        Move->DisableMovement();
+                //    }
+                //}
 
             }, Duration - 0.27f, false); // Blueprint と同じ処理
+    }
+}
+
+void AEnemy::OnAttackFinished()
+{
+    isAttack = false;
+    UE_LOG(LogTemp, Warning, TEXT("OnAttackFinished called"));
+
+    // 移動再開
+    if (UCharacterMovementComponent* Move = GetCharacterMovement())
+    {
+        Move->SetMovementMode(MOVE_Walking);
     }
 }
 
