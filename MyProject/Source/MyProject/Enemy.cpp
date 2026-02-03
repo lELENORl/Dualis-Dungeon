@@ -6,6 +6,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 #include "MyProjectCharacter.h"
+#include "Character_Secondary.h"
 #include "AIC_Enemy.h"
 #include "Components/ChildActorComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -76,6 +77,7 @@ void AEnemy::OnSeePlayer(APawn* Pawn)
 	AAIC_Enemy* AIController = Cast<AAIC_Enemy>(GetController());
 	// プレイヤー
 	AMyProjectCharacter* player = Cast<AMyProjectCharacter>(Pawn);
+    ACharacter_Secondary* player2 = Cast<ACharacter_Secondary>(Pawn);
 
 	if (AIController && player)
 	{
@@ -83,6 +85,12 @@ void AEnemy::OnSeePlayer(APawn* Pawn)
 		AIController->SetPlayerKey(player);
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetActorLocation().ToString());
 	}
+    if (AIController && player2)
+    {
+        // AIControllerにプレイヤー情報を設定
+        AIController->SetPlayerKey(player2);
+        //UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetActorLocation().ToString());
+    }
 
 	// 視野に入ったら画面に"See"と表示
 	UKismetSystemLibrary::PrintString(this, "See", true, true, FColor::Blue, 2.f);
